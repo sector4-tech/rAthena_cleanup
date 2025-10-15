@@ -4040,11 +4040,12 @@ void clif_changelook(block_list *bl, int32 type, int32 val) {
 #if PACKETVER < 20150513
 				return;
 #else
+#if PACKETVER < 20231220
 				if( val != 0 && sc != nullptr && sc->option&OPTION_COSTUME ){
- 					val = 0;
+					val = 0;
 				}
-
- 				vd->look[LOOK_BODY2] = val;
+#endif
+				vd->look[LOOK_BODY2] = val;
 #endif
 				break;
 	}
