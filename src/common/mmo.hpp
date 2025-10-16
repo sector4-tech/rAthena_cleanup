@@ -1199,4 +1199,6 @@ struct clan{
 	#define MAX_CARTS 5
 #endif
 
+	#define COLLECTION_STORAGE 1
+
 #endif /* MMO_HPP */

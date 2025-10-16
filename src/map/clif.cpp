@@ -10931,6 +10931,9 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 
 		if (!sd->state.autotrade) { // Don't trigger NPC event or opening vending/buyingstore will be failed
 			npc_script_event( *sd, NPCE_LOGIN );
+			
+			//Collection Event
+			pc_collection_load(*sd);
 		}
 
 		// Set facing direction before check below to update client
@@ -20823,6 +20826,8 @@ void clif_roulette_open( map_session_data* sd ){
 
 /// Request to open the roulette window
 /// 0A19 (CZ_REQ_OPEN_ROULETTE)
+/// edit clif_parse_roulette_open ===>open collection storage =====//Gryphon.Online
+/*
 void clif_parse_roulette_open( int32 fd, map_session_data* sd ){
 	nullpo_retv(sd);
 
@@ -20832,6 +20837,20 @@ void clif_parse_roulette_open( int32 fd, map_session_data* sd ){
 	}
 
 	clif_roulette_open(sd);
+}
+*/
+void clif_parse_roulette_open(int32 fd, map_session_data* sd) {
+    nullpo_retv(sd);
+
+    // µÃÇ¨ÊÍºÇèÒÃÐºº Collection Storage ä´é¶Ù¡¡ÓË¹´¤èÒã¹ inter_server.yml ËÃ×ÍäÁè
+    if (storage_exists(COLLECTION_STORAGE)) {
+        // àÃÕÂ¡ãªé¿Ñ§¡ìªÑ¹à¾×èÍâËÅ´ Collection Storage ¢Í§¼ÙéàÅè¹
+        // â´Âãªé storage_id = COLLECTION_STORAGE (1) áÅÐâËÁ´ PUT/GET
+        storage_premiumStorage_load(sd, COLLECTION_STORAGE, STOR_MODE_GET | STOR_MODE_PUT);
+    } else {
+        // ËÒ¡ Collection Storage ÂÑ§äÁè¶Ù¡µÑé§¤èÒ ãËéÊè§¢éÍ¤ÇÒÁá¨é§àµ×Í¹¼ÙéàÅè¹
+        clif_messagecolor(&sd->bl, color_table[COLOR_RED], "ÃÐºº Collection Storage ÂÑ§äÁè¾ÃéÍÁãªé§Ò¹", false, SELF);
+    }
 }
 
 /// Sends the info about the available roulette rewards to the client
