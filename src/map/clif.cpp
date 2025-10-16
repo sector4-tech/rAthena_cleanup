@@ -115,7 +115,7 @@ static inline int32 itemtype(t_itemid nameid) {
 		else
 			return IT_ARMOR;
 	}
-	return ( type == IT_PETEGG ) ? IT_ARMOR : type;
+	return (type == IT_PETEGG) ? IT_ARMOR : (type == IT_CHARM) ? IT_ETC : type;
 }
 
 // TODO: doc
@@ -20849,7 +20849,7 @@ void clif_parse_roulette_open(int32 fd, map_session_data* sd) {
         storage_premiumStorage_load(sd, COLLECTION_STORAGE, STOR_MODE_GET | STOR_MODE_PUT);
     } else {
         // ËÒ¡ Collection Storage ÂÑ§äÁè¶Ù¡µÑé§¤èÒ ãËéÊè§¢éÍ¤ÇÒÁá¨é§àµ×Í¹¼ÙéàÅè¹
-        clif_messagecolor(&sd->bl, color_table[COLOR_RED], "ÃÐºº Collection Storage ÂÑ§äÁè¾ÃéÍÁãªé§Ò¹", false, SELF);
+        clif_messagecolor(sd, color_table[COLOR_RED], "ÃÐºº Collection Storage ÂÑ§äÁè¾ÃéÍÁãªé§Ò¹", false, SELF);
     }
 }
 
